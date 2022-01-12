@@ -1,0 +1,70 @@
+<%= render 'shared/header' %>
+
+<main class="py-10 max-w-7xl mx-auto px-4 sm:px-8">
+    <%= form_for(@profile, builder: TailwindInputBuilder) do |f| %>
+        <div class="flex justify-end items-center w-full mb-4">
+        <div>
+                <%= f.submit "Copy", class: "flex-shrink-0 px-4 py-2 text-base font-semibold text-white bg-yellow-600 rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-green-200" %><br/>
+            </div>
+        <div>
+                <%= f.submit "Preview", class: "flex-shrink-0 px-4 py-2 text-base font-semibold text-white bg-blue-600 rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-green-200" %><br/>
+            </div>
+        <div>
+                <%= f.submit "Save", class: "flex-shrink-0 px-4 py-2 text-base font-semibold text-white bg-green-600 rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-green-200" %><br/>
+            </div>
+        </div>
+
+        <%= render 'shared/edit_section', title: "Profile details" do %>
+            <%= f.text_field :name, value: @profile.name || current_user.name, placeholder: "Name" %><br/>
+            
+    <label class="w-20 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-white">
+        <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+            <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+        </svg>
+        <span class="mt-2 text-base leading-normal">Upload Image</span>
+        <input type='file' class="hidden" />
+    </label>
+
+            <%= f.text_field :job_title, value: @profile.job_title, placeholder: "Job title" %><br/>
+            <%= f.text_field :total_experience, value: @profile.total_experience, placeholder: "Total experience" %><br/>
+            <%= f.text_area :overview, value: @profile.overview, placeholder: "Profile overview", required: true %><br/>
+            <p>Career Highlights</p>
+            <%= f.text_field :career_highlights, value: concat_str_with_comma(@profile.career_highlights), placeholder: "Career highlights" %>
+            <%= render 'shared/multiple_inputs_message' %>
+            
+            <p>Primary Skills</p>
+            <%= f.text_field :primary_skills, value: concat_str_with_comma(@profile.primary_skills), placeholder: "Primary skills" %>
+            <%= render 'shared/multiple_inputs_message' %>
+            
+            <p>Secondary Skills</p>
+            <%= f.text_field :secondary_skills, value: concat_str_with_comma(@profile.secondary_skills), placeholder: "Secondary skills" %>
+            <%= render 'shared/multiple_inputs_message' %>
+          
+      
+<% end %>
+       
+     <%= render 'shared/edit_section', title: "Education" do %>
+            <%= f.fields_for :educations do |education| %>
+                <%= render 'shared/input/education', education: education %>
+            <% end %><br />
+            <%= render 'shared/input/buttons/add', label: "+ Add Education", path: "/educations/new" %>
+            
+       <% end %>
+
+
+        <%= render 'shared/edit_section', title: "Experience" do %>
+            <%= f.fields_for :educations do |education| %>
+                <%= render 'shared/input/education', education: education %>
+            <% end %><br />
+            <%= render 'shared/input/buttons/add', label: "+ Add Experience", path: "/educations/new" %>
+        <% end %>
+        
+        <%= render 'shared/edit_section', title: "Project" do %>
+            <%= f.fields_for :educations do |education| %>
+                <%= render 'shared/input/education', education: education %>
+            <% end %><br />
+            <%= render 'shared/input/buttons/add', label: "+ Add Project", path: "/educations/new" %>
+    <% end %>
+<% end %>
+
+</main>
